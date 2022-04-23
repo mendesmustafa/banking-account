@@ -15,28 +15,24 @@ import java.util.UUID;
 @Service
 public class AccountService {
 
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
 
     public ResultModel save(Account model) {
-
         String referenceNumber = UUID.randomUUID().toString();
-
         try {
             accountRepository.save(model);
             return new ResultModel(false, referenceNumber);
-
         } catch (Exception e) {
             return new ResultModel(true, referenceNumber);
         }
     }
 
     public List<Account> list() {
-        List<Account> accounts = accountRepository.findAll();
-        return accounts;
+        return accountRepository.findAll();
     }
 
     public Account findByAccountNumber(Integer accountNumber) {

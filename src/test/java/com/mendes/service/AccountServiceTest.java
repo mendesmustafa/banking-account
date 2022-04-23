@@ -37,7 +37,6 @@ class AccountServiceTest {
 
     @BeforeEach
     void setUp() {
-
         defaultAccount = new Account();
         defaultAccount.setAccountNumber(DEFAULT_ACCOUNT_NUMBER);
         defaultAccount.setCurrencyCode(DEFAULT_CURRENCY_CODE);
@@ -46,7 +45,6 @@ class AccountServiceTest {
 
     @AfterEach
     void clear() {
-
         if (defaultAccount != null && defaultAccount.getId() != null) {
             accountRepository.deleteById(defaultAccount.getId());
         }
@@ -54,28 +52,23 @@ class AccountServiceTest {
 
     @Test
     void save() {
-
         resultModel = accountService.save(defaultAccount);
         assertFalse(resultModel.isError());
     }
 
     @Test
     void list() {
-
         resultModel = accountService.save(defaultAccount);
         assertFalse(resultModel.isError());
-
         List<Account> accounts = accountService.list();
         assertTrue(accounts.size() > 0);
     }
 
     @Test
     void findByAccountNumber() {
-
         resultModel = accountService.save(defaultAccount);
         assertFalse(resultModel.isError());
-
         Account accountNumber = accountService.findByAccountNumber(defaultAccount.getAccountNumber());
-        assertEquals(accountNumber.getAccountNumber(), DEFAULT_ACCOUNT_NUMBER);
+        assertEquals(DEFAULT_ACCOUNT_NUMBER, accountNumber.getAccountNumber());
     }
 }

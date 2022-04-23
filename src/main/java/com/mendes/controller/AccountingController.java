@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author mendes
  */
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/accounting")
 public class AccountingController {
 
-    private AccountingService accountingService;
+    private final AccountingService accountingService;
 
     public AccountingController(AccountingService accountingService) {
         this.accountingService = accountingService;
@@ -34,10 +36,8 @@ public class AccountingController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @PostMapping("/save")
-    public ResponseEntity save(@RequestBody Accounting model) {
-
+    public ResponseEntity<ResultModel> save(@RequestBody Accounting model) {
         ResultModel resultModel = accountingService.save(model);
-
         if (resultModel.isError()) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resultModel);
         }
@@ -52,8 +52,7 @@ public class AccountingController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @GetMapping("/list")
-    public ResponseEntity list() {
-
+    public ResponseEntity<List<Accounting>> list() {
         return ResponseEntity.ok(accountingService.list());
     }
 }
