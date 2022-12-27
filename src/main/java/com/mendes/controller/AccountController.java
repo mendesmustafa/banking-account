@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author mendes
  */
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/account")
 public class AccountController {
 
-    private AccountService accountService;
+    private final AccountService accountService;
 
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
@@ -34,10 +36,8 @@ public class AccountController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @PostMapping("/save")
-    public ResponseEntity save(@RequestBody Account model) {
-
+    public ResponseEntity<ResultModel> save(@RequestBody Account model) {
         ResultModel resultModel = accountService.save(model);
-
         if (resultModel.isError()) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resultModel);
         }
@@ -52,8 +52,7 @@ public class AccountController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @GetMapping("/list")
-    public ResponseEntity list() {
-
+    public ResponseEntity<List<Account>> list() {
         return ResponseEntity.ok(accountService.list());
     }
 }

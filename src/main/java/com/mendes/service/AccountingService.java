@@ -16,9 +16,8 @@ import java.util.UUID;
 @Service
 public class AccountingService {
 
-    private AccountingRepository accountingRepository;
-
-    private AccountService accountService;
+    private final AccountingRepository accountingRepository;
+    private final AccountService accountService;
 
     public AccountingService(AccountingRepository accountingRepository, AccountService accountService) {
         this.accountingRepository = accountingRepository;
@@ -26,14 +25,11 @@ public class AccountingService {
     }
 
     public ResultModel save(Accounting model) {
-
         String referenceNumber = UUID.randomUUID().toString();
         Account accountSender = accountService.findByAccountNumber(model.getSenderAccountNumber());
         Account accountReceiver = accountService.findByAccountNumber(model.getReceiverAccountNumber());
-
-        if (accountSender == null || accountReceiver == null || accountSender.getCurrencyCode() != accountReceiver.getCurrencyCode() ||
-                accountSender.getBalance().compareTo(model.getAmount()) < 0) {
-
+        if (accountSender == null || accountReceiver == null || accountSender.getCurrencyCode() != accountReceiver.getCurrencyCode()
+                || accountSender.getBalance().compareTo(model.getAmount()) < 0) {
             return new ResultModel(true, referenceNumber);
         }
         accountingRepository.save(model);
@@ -41,7 +37,6 @@ public class AccountingService {
     }
 
     public List<Accounting> list() {
-        List<Accounting> accountings = accountingRepository.findAll();
-        return accountings;
+        return accountingRepository.findAll();
     }
 }

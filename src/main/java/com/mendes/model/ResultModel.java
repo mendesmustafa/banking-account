@@ -9,9 +9,7 @@ import java.io.Serializable;
 public class ResultModel implements Serializable {
 
     private boolean error;
-
     private String referenceNumber;
-
     public ResultModel() {
     }
 
