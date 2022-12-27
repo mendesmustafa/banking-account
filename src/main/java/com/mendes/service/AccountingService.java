@@ -28,8 +28,9 @@ public class AccountingService {
         String referenceNumber = UUID.randomUUID().toString();
         Account accountSender = accountService.findByAccountNumber(model.getSenderAccountNumber());
         Account accountReceiver = accountService.findByAccountNumber(model.getReceiverAccountNumber());
-        if (accountSender == null || accountReceiver == null || accountSender.getCurrencyCode() != accountReceiver.getCurrencyCode()
-                || accountSender.getBalance().compareTo(model.getAmount()) < 0) {
+        if (accountSender == null || accountReceiver == null ||
+                accountSender.getCurrencyCode() != accountReceiver.getCurrencyCode() ||
+                accountSender.getBalance().compareTo(model.getAmount()) < 0) {
             return new ResultModel(true, referenceNumber);
         }
         accountingRepository.save(model);

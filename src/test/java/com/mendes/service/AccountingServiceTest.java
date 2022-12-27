@@ -56,7 +56,6 @@ class AccountingServiceTest {
 
     @BeforeEach
     void setUp() {
-
         defaultAccount = new Account();
         defaultAccount.setAccountNumber(DEFAULT_ACCOUNT_NUMBER);
         defaultAccount.setCurrencyCode(DEFAULT_CURRENCY_CODE);
@@ -75,7 +74,6 @@ class AccountingServiceTest {
 
     @AfterEach
     void clear() {
-
         if (defaultAccounting != null && defaultAccounting.getId() != null) {
             accountingRepository.deleteById(defaultAccounting.getId());
         }
@@ -89,7 +87,6 @@ class AccountingServiceTest {
 
     @Test
     void save() {
-
         accountService.save(defaultAccount);
         accountService.save(firstAccount);
         resultModel = accountingService.save(defaultAccounting);
@@ -98,7 +95,6 @@ class AccountingServiceTest {
 
     @Test
     void accountSenderHas() {
-
         accountService.save(defaultAccount);
         accountService.save(firstAccount);
         defaultAccounting.setSenderAccountNumber(DEFAULT_SENDER_ACCOUNT_NUMBER);
@@ -108,7 +104,6 @@ class AccountingServiceTest {
 
     @Test
     void accountReceiverHas() {
-
         accountService.save(defaultAccount);
         accountService.save(firstAccount);
         defaultAccounting.setReceiverAccountNumber(DEFAULT_RECEIVER_ACCOUNT_NUMBER);
@@ -118,7 +113,6 @@ class AccountingServiceTest {
 
     @Test
     void currencyCodeIsEqual() {
-
         defaultAccount.setCurrencyCode(Currency.EUR);
         accountService.save(defaultAccount);
         accountService.save(firstAccount);
@@ -128,24 +122,20 @@ class AccountingServiceTest {
 
     @Test
     void amount() {
-
         accountService.save(defaultAccount);
         accountService.save(firstAccount);
         defaultAccounting.setAmount(new BigDecimal(100));
         resultModel = accountingService.save(defaultAccounting);
         assertTrue(resultModel.isError());
-
     }
 
     @Test
     void list() {
-
         accountService.save(defaultAccount);
         accountService.save(firstAccount);
         resultModel = accountingService.save(defaultAccounting);
         assertFalse(resultModel.isError());
-
-        List<Accounting> accountings = accountingService.list();
-        assertTrue(accountings.size() > 0);
+        List<Accounting> list = accountingService.list();
+        assertTrue(list.size() > 0);
     }
 }
